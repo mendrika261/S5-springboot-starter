@@ -40,8 +40,11 @@ public class AuthFilter implements Filter {
         String uri = httpRequest.getRequestURI();
         List<Page> pages = pageRepository.findAllByUrlStartingWith(uri.toLowerCase());
         if (pages.isEmpty()) {
-            httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response = Response.notFound("Page not found (Mety mbola tsy ao anaty base de données?)");
+            /* httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response = Response.notFound("Page not found (Mety mbola tsy ao anaty base de données?)"); */
+            // By pass for dev
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
         } else {
             int level = 0;
             Token token = tokenService.getToken(httpRequest);
